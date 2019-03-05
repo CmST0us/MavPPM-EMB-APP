@@ -8,7 +8,7 @@ cd $MAVPPM_ROOT/Vendor/SocketKit/
 rm -r build
 mkdir build
 cd build
-cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=OFF -DDEBUG=OFF
+cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=ON -DDEBUG=OFF
 make
 make install
 
@@ -21,7 +21,7 @@ cp -r libSocketKit/lib $MAVPPM_ROOT/Vendor/build
 cd $MAVPPM_ROOT/MavPPM-EMB-PPM
 mkdir -p build
 cd build
-cmake .. -DBUILD_WIRING_PI=OFF -DDEBUG=OFF
+cmake .. -DBUILD_WIRING_PI=ON -DDEBUG=OFF
 make
 make install
 

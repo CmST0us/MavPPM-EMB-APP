@@ -4,10 +4,15 @@
 
 #pragma once
 
+#include "nocopyable.hpp"
+
 namespace mavppm {
 
-class application {
-
+class Application : public utils::NoCopyable {
+public:
+    Application();
+    virtual ~Application();
+    virtual void run();
 };
 
 }
