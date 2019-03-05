@@ -7,5 +7,6 @@
 int main(int argc, char *argv[]) {
     mavppm::MavPPM app;
     app.run();
+
     return 0;
 }

@@ -28,6 +28,7 @@ private:
     std::unique_ptr<socketkit::UsbmuxdDeviceListener> _deviceListener{nullptr};
     std::unique_ptr<socketkit::UsbmuxdSocket> _connectedDeviceSocket{nullptr};
 
+    void tryStartUsbmuxdListeningDevice();
     void startUsbmuxdListeningDevice();
 
 #pragma mark - Bind
