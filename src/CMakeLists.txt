@@ -10,18 +10,6 @@ if(NOT DEFINED BUILD_CROSS_COMPILE)
 endif()
 
 
-if(BUILD_CROSS_COMPILE STREQUAL "ON")
-    execute_process(
-            COMMAND
-            ../tools/x_build_dep.sh
-    )
-else()
-    execute_process(
-            COMMAND
-            ../tools/build_dep.sh
-    )
-endif()
-
 # Source Dir
 aux_source_directory(./app mavppm_source_app)
 aux_source_directory(./app/base mavppm_source_app_base)
