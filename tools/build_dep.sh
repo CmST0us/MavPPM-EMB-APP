@@ -23,7 +23,7 @@ cp -r libSocketKit/include $MAVPPM_ROOT/Vendor/build
 cp -r libSocketKit/lib $MAVPPM_ROOT/Vendor/build
 cd ..
 cp -r vendor/build/include $MAVPPM_ROOT/Vendor/build
-cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/lib
+cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/build/
 
 # Build PPM
 cd $MAVPPM_ROOT/MavPPM-EMB-PPM
