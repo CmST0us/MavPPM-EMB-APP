@@ -1,7 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=`pwd`
 SRC_ROOT=$CURRENT_DIR/..
-
 MAVPPM_ROOT=$SRC_ROOT/..
 
 # Build Socket Kit
