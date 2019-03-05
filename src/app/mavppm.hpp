@@ -25,8 +25,8 @@ public:
 
 #pragma mark - Usbmuxd
 private:
-    std::unique_ptr<socketkit::UsbmuxdDeviceListener> _deviceListener{nullptr};
-    std::unique_ptr<socketkit::UsbmuxdSocket> _connectedDeviceSocket{nullptr};
+    std::shared_ptr<socketkit::UsbmuxdDeviceListener> _deviceListener{nullptr};
+    std::shared_ptr<socketkit::UsbmuxdSocket> _connectedDeviceSocket{nullptr};
 
     void tryStartUsbmuxdListeningDevice();
     void startUsbmuxdListeningDevice();
