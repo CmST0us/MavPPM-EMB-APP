@@ -8,8 +8,13 @@
 
 int mavppm::MavPPM::USBMUXD_CONNECT_PORT = 17123;
 
-mavppm::MavPPM::MavPPM() {
-
+mavppm::MavPPM::MavPPM() : _mavlinkProtocol{std::make_shared<mavppm::MavlinkProtocol>()}{
+    auto mavlinkParseBind = std::bind(&mavppm::MavPPM::mavlinkProtocolParseHandler, this, std::placeholders::_1, std::placeholders::_2
+    );
+    auto mavlinkWriteBind = std::bind(&mavppm::MavPPM::mavlinkProtocolWriteHandler, this, std::placeholders::_1, std::placeholders::_2
+    );
+    _mavlinkProtocol->mParseHandler = mavlinkParseBind;
+    _mavlinkProtocol->mWriterHandler = mavlinkWriteBind;
 }
 
 mavppm::MavPPM::~MavPPM() {
@@ -88,4 +93,21 @@ void mavppm::MavPPM::usbmuxdSocketEventHandler(socketkit::ICommunicator *communi
 void mavppm::MavPPM::usbmuxdSocketReadHandler(socketkit::ICommunicator *,
                                               std::shared_ptr<socketkit::utils::Data> data) {
     // send to mavlink
+    if (data > 0) {
+        mavppm::utils::Data d(data->getDataSize());
+        d.copy(data->getDataAddress(), data->getDataSize());
+        _mavlinkProtocol->parse(d);
+    }
+}
+
+void mavppm::MavPPM::mavlinkProtocolParseHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message) {
+    mavppm::MavlinkProtocol::messageDescription(message);
+
+}
+
+void mavppm::MavPPM::mavlinkProtocolWriteHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message) {
+    auto data = mavppm::MavlinkProtocol::serialize(message);
+    auto d = std::make_shared<socketkit::utils::Data>(data->getDataSize());
+    d->copy(data->getDataAddress(), data->getDataSize());
+    _connectedDeviceSocket->write(d);
 }

@@ -13,6 +13,9 @@
 
 #include "application.hpp"
 
+#include "mavlink_protocol.hpp"
+
+
 namespace mavppm {
 
 class MavPPM final : public Application {
@@ -20,13 +23,14 @@ public:
     static int USBMUXD_CONNECT_PORT;
 
     MavPPM();
-    ~MavPPM();
+    virtual ~MavPPM();
     virtual void run() override;
 
 #pragma mark - Usbmuxd
 private:
     std::shared_ptr<socketkit::UsbmuxdDeviceListener> _deviceListener{nullptr};
     std::shared_ptr<socketkit::UsbmuxdSocket> _connectedDeviceSocket{nullptr};
+    std::shared_ptr<mavppm::MavlinkProtocol> _mavlinkProtocol{nullptr};
 
     void tryStartUsbmuxdListeningDevice();
     void startUsbmuxdListeningDevice();
@@ -35,6 +39,8 @@ private:
 private:
     void usbmuxdSocketEventHandler(socketkit::ICommunicator *, socketkit::CommunicatorEvent event);
     void usbmuxdSocketReadHandler(socketkit::ICommunicator *, std::shared_ptr<socketkit::utils::Data> data);
+    void mavlinkProtocolParseHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message);
+    void mavlinkProtocolWriteHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message);
 };
 
 }

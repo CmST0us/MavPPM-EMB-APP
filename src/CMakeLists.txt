@@ -13,8 +13,8 @@ endif()
 # Source Dir
 aux_source_directory(./app mavppm_source_app)
 aux_source_directory(./app/base mavppm_source_app_base)
+aux_source_directory(./app/mavlink mavppm_source_mavlink)
 aux_source_directory(./utils mavppm_source_utils)
-
 
 # Target
 add_executable(
@@ -22,6 +22,7 @@ add_executable(
         ${mavppm_source_app}
         ${mavppm_source_app_base}
         ${mavppm_source_utils}
+        ${mavppm_source_mavlink}
 )
 
 # Search
@@ -30,6 +31,7 @@ target_include_directories(
         PRIVATE
         ./app
         ./app/base
+        ./app/mavlink
         ./utils
 )
 
@@ -37,6 +39,8 @@ target_include_directories(
         MavPPM
         PUBLIC
         ../../MavPPM-EMB-PPM/include
+        ../../MavPPM-mavlink/mavlink/include/v1
+        ../../MavPPM-mavlink/mavlink/include/v1/common
         ../../Vendor/build/include
 )
 
