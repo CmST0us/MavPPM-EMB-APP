@@ -23,12 +23,8 @@ void mavppm::MavPPM::run() {
     mavppm::PackageManager::shared()->setupPackageManager(mavppm::MavPPM::USBMUXD_CONNECT_PORT);
 
     auto p = mavppm::PackageManager::shared();
-    p->mConnectingHandler = [this](bool isConnected) {
-        if (isConnected) {
-            _linkManager->open();
-        } else {
-            _linkManager->close();
-        }
+    p->mConnectedHandler = [this, p]() {
+        _linkManager->open();
     };
 
     while (true) {

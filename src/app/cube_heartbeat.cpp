@@ -29,6 +29,8 @@ void mavppm::CubeHeartbeat::start() {
 }
 
 void mavppm::CubeHeartbeat::stop() {
-    _runloop->stop();
+    if (_runloop != nullptr) {
+        _runloop->stop();
+    }
 }
 

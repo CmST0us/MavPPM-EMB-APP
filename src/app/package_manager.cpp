@@ -32,9 +32,10 @@ void mavppm::PackageManager::setupPackageManager(int remotePort) {
 }
 
 void mavppm::PackageManager::forceDisconnect() {
-    _connectedDeviceSocket->close();
-    _connectedDeviceSocket->getRunloop()->stop();
-    notifyDeviceConnecting(false);
+    if (_connectedDeviceSocket) {
+        _connectedDeviceSocket->close();
+        _connectedDeviceSocket->getRunloop()->stop();
+    }
 }
 
 void mavppm::PackageManager::tryStartUsbmuxdListeningDevice() {
@@ -54,14 +55,8 @@ void mavppm::PackageManager::startUsbmuxdListeningDevice() {
             if (_connectedDeviceSocket == nullptr ||
                 _connectedDeviceSocket->stateMachine().state() != socketkit::CommunicatorState::Established) {
                 // connect
-                _connectedDeviceSocket = std::make_shared<socketkit::UsbmuxdSocket>();
-                // bind socket event
-                auto eventFuncBind = std::bind(&mavppm::PackageManager::usbmuxdSocketEventHandler, this, std::placeholders::_1, std::placeholders::_2);
-                _connectedDeviceSocket->mEventHandler = eventFuncBind;
-                // run and connect
-                _connectedDeviceSocket->getRunloop()->run();
-                auto deviceEndpoit = std::make_shared<socketkit::Endpoint>(std::to_string(record.deviceId), mRemotePort, false);
-                _connectedDeviceSocket->connect(deviceEndpoit);
+                _currentAttachDeviceEndpoint = std::make_shared<socketkit::Endpoint>(std::to_string(record.deviceId), mRemotePort, false);
+                tryConnect(_currentAttachDeviceEndpoint);
             }
         } else {
             std::cout<<"[MavPPM][USBMUXD]: Disconnect Device " << std::to_string(record.deviceId) << std::endl;
@@ -75,7 +70,7 @@ void mavppm::PackageManager::usbmuxdSocketEventHandler(socketkit::ICommunicator 
     switch (event) {
         case socketkit::CommunicatorEvent::OpenCompleted: {
             std::cout<<"[MavPPM][USBMUXD]: Connect Device " << _connectedDeviceSocket->connectingEndpoint()->getEndpointIp() << " Success" << std::endl;
-            notifyDeviceConnecting(true);
+            notifyDeviceConnected();
         }
             break;
         case socketkit::CommunicatorEvent::HasBytesAvailable: {
@@ -87,14 +82,12 @@ void mavppm::PackageManager::usbmuxdSocketEventHandler(socketkit::ICommunicator 
 //            std::cout<<"[MavPPM][USBMUXD]: EOF" << std::endl;
             communicator->close();
             communicator->getRunloop()->stop();
-            notifyDeviceConnecting(false);
         }
             break;
         case socketkit::CommunicatorEvent::ErrorOccurred: {
 //            std::cout<<"[MavPPM][USBMUXD]: Error" << std::endl;
             communicator->close();
             communicator->getRunloop()->stop();
-            notifyDeviceConnecting(false);
         }
             break;
     }
@@ -103,7 +96,7 @@ void mavppm::PackageManager::usbmuxdSocketEventHandler(socketkit::ICommunicator 
 void mavppm::PackageManager::usbmuxdSocketReadHandler(socketkit::ICommunicator *,
                                               std::shared_ptr<socketkit::utils::Data> data) {
     // send to mavlink
-    if (data > 0) {
+    if (data->getDataSize() > 0) {
         mavppm::utils::Data d(data->getDataSize());
         d.copy(data->getDataAddress(), data->getDataSize());
         _mavlinkProtocol->parse(d);
@@ -120,7 +113,6 @@ void mavppm::PackageManager::mavlinkProtocolWriteHandler(mavppm::MavlinkProtocol
     d->copy(data->getDataAddress(), data->getDataSize());
 
     _connectedDeviceSocket->write(d);
-    std::cout<<"[MAVPPM][SOCKET]: write"<<std::endl;
 }
 
 void mavppm::PackageManager::sendMessage(mavlink_message_t &msg) {
@@ -131,8 +123,31 @@ void mavppm::PackageManager::registerMessage(int msgId, MavlinkDispatcherMessage
     _dispatcher->registerMessageId(msgId, handlerPtr);
 }
 
-void mavppm::PackageManager::notifyDeviceConnecting(bool isConnected) {
-    if (mConnectingHandler) {
-        mConnectingHandler(isConnected);
+void mavppm::PackageManager::notifyDeviceConnected() {
+    if (mConnectedHandler) {
+        mConnectedHandler();
     }
+}
+
+void mavppm::PackageManager::reConnect() {
+    if (_connectedDeviceSocket != nullptr &&
+        _connectedDeviceSocket->stateMachine().state() == socketkit::CommunicatorState::Established) {
+        return;
+    }
+    tryConnect(_currentAttachDeviceEndpoint);
+}
+
+std::shared_ptr<socketkit::UsbmuxdSocket> mavppm::PackageManager::createSocket() {
+    auto socket = std::make_shared<socketkit::UsbmuxdSocket>();
+    // bind socket event
+    auto eventFuncBind = std::bind(&mavppm::PackageManager::usbmuxdSocketEventHandler, this, std::placeholders::_1, std::placeholders::_2);
+    socket->mEventHandler = eventFuncBind;
+    // run and connect
+    socket->getRunloop()->run();
+    return socket;
+}
+
+void mavppm::PackageManager::tryConnect(std::shared_ptr<socketkit::Endpoint> endpoint) {
+    _connectedDeviceSocket = createSocket();
+    _connectedDeviceSocket->connect(endpoint);
 }
