@@ -8,7 +8,7 @@
 #include <mavlink.h>
 #include <map>
 #include <vector>
-
+#include <memory>
 #include "nocopyable.hpp"
 
 namespace mavppm {
