@@ -101,7 +101,8 @@ void mavppm::MavPPM::usbmuxdSocketReadHandler(socketkit::ICommunicator *,
 }
 
 void mavppm::MavPPM::mavlinkProtocolParseHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message) {
-    mavppm::MavlinkProtocol::messageDescription(message);
+    std::string str = mavppm::MavlinkProtocol::messageDescription(message);
+    std::cout<<str<<std::endl;
 
 }
 
