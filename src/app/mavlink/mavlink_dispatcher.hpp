@@ -5,6 +5,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <mavlink.h>
 #include <map>
 #include <vector>

@@ -34,7 +34,9 @@ void mavppm::LinkManager::open() {
 }
 
 void mavppm::LinkManager::close() {
-    _heartbeat->stop();
+    if (_heartbeat != nullptr) {
+        _heartbeat->stop();
+    }
     _handler = nullptr;
     _heartbeat = nullptr;
 }

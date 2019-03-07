@@ -5,6 +5,7 @@
 #include <iostream>
 #include "mavppm.hpp"
 #include "package_manager.hpp"
+#include "timer.hpp"
 
 int mavppm::MavPPM::USBMUXD_CONNECT_PORT = 17123;
 
