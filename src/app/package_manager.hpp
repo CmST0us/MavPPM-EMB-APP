@@ -17,6 +17,7 @@
 #include "mavlink_protocol.hpp"
 #include "mavlink_dispatcher.hpp"
 #include "mavlink_dispatcher.hpp"
+#include "timer.hpp"
 
 namespace mavppm {
 
@@ -31,6 +32,7 @@ public:
     void sendMessage(mavlink_message_t &msg);
     void registerMessage(int msgId, MavlinkDispatcherMessageHandlerPtr handlerPtr);
     void forceDisconnect();
+    void reConnect();
 
     using PackageManagerDeviceConnectingHandler = std::function<void(bool isConnected)>;
     PackageManagerDeviceConnectingHandler mConnectingHandler;
@@ -54,6 +56,11 @@ private:
     void mavlinkProtocolWriteHandler(mavppm::MavlinkProtocol *protocol, mavlink_message_t &message);
 
 #pragma mark - Link
+    std::shared_ptr<socketkit::Endpoint> _currentAttachDeviceEndpoint;
+    std::shared_ptr<mavppm::utils::Timer> _reConnectTimer;
+
+    void tryConnect(std::shared_ptr<socketkit::Endpoint> endpoint);
+    std::shared_ptr<socketkit::UsbmuxdSocket> createSocket();
     void notifyDeviceConnecting(bool isConnected);
 };
 
