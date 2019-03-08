@@ -28,7 +28,6 @@ void mavppm::MavPPM::run() {
             _linkManager->open();
         } else {
             _linkManager->close();
-            sleep(2);
         }
     };
 
