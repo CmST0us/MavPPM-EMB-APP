@@ -51,6 +51,7 @@ void mavppm::PackageManager::startUsbmuxdListeningDevice() {
     _deviceListener = std::make_shared<socketkit::UsbmuxdDeviceListener>();
     _deviceListener->mDeviceListenerHandler = [&](bool isAttach, socketkit::UsbmuxdDeviceRecord record) {
         if (isAttach) {
+            std::cout<<"[MavPPM][USBMUXD]: Attach Device " << std::to_string(record.deviceId) << std::endl;
             if (_connectedDeviceSocket == nullptr ||
                 _connectedDeviceSocket->stateMachine().state() != socketkit::CommunicatorState::Established) {
                 // connect
@@ -64,7 +65,7 @@ void mavppm::PackageManager::startUsbmuxdListeningDevice() {
                 _connectedDeviceSocket->connect(deviceEndpoit);
             }
         } else {
-            std::cout<<"[MavPPM][USBMUXD]: Disconnect Device " << std::to_string(record.deviceId) << std::endl;
+            std::cout<<"[MavPPM][USBMUXD]: Dettach Device " << std::to_string(record.deviceId) << std::endl;
         }
     };
     _deviceListener->getRunloop()->run();
@@ -84,14 +85,14 @@ void mavppm::PackageManager::usbmuxdSocketEventHandler(socketkit::ICommunicator 
         }
             break;
         case socketkit::CommunicatorEvent::EndEncountered: {
-//            std::cout<<"[MavPPM][USBMUXD]: EOF" << std::endl;
+            std::cout<<"[MavPPM][USBMUXD]: EOF" << std::endl;
             communicator->close();
             communicator->getRunloop()->stop();
             notifyDeviceConnecting(false);
         }
             break;
         case socketkit::CommunicatorEvent::ErrorOccurred: {
-//            std::cout<<"[MavPPM][USBMUXD]: Error" << std::endl;
+            std::cout<<"[MavPPM][USBMUXD]: Error" << std::endl;
             communicator->close();
             communicator->getRunloop()->stop();
             notifyDeviceConnecting(false);
@@ -120,7 +121,6 @@ void mavppm::PackageManager::mavlinkProtocolWriteHandler(mavppm::MavlinkProtocol
     d->copy(data->getDataAddress(), data->getDataSize());
 
     _connectedDeviceSocket->write(d);
-    std::cout<<"[MAVPPM][SOCKET]: write"<<std::endl;
 }
 
 void mavppm::PackageManager::sendMessage(mavlink_message_t &msg) {
