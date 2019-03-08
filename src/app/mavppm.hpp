@@ -6,6 +6,7 @@
 
 #include "application.hpp"
 #include "link_manager.hpp"
+#include "manual_control.hpp"
 
 namespace mavppm {
 
@@ -18,6 +19,9 @@ public:
 
 private:
     std::shared_ptr<mavppm::LinkManager> _linkManager{nullptr};
+
+#pragma mark - Message Handler
+    std::shared_ptr<mavppm::message_handler::ManualControl> _manualControl{nullptr};
 };
 
 }

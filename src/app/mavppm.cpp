@@ -31,6 +31,9 @@ void mavppm::MavPPM::run() {
         }
     };
 
+    _manualControl = std::make_shared<mavppm::message_handler::ManualControl>();
+    _manualControl->start();
+
     while (true) {
         ::sleep(1000);
     }

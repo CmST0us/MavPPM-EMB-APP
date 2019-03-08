@@ -14,6 +14,7 @@ endif()
 aux_source_directory(./app mavppm_source_app)
 aux_source_directory(./app/base mavppm_source_app_base)
 aux_source_directory(./app/mavlink mavppm_source_mavlink)
+aux_source_directory(./app/message_handler mavppm_source_message_handler)
 aux_source_directory(./utils mavppm_source_utils)
 
 # Target
@@ -21,6 +22,7 @@ add_executable(
         MavPPM
         ${mavppm_source_app}
         ${mavppm_source_app_base}
+        ${mavppm_source_message_handler}
         ${mavppm_source_utils}
         ${mavppm_source_mavlink}
 )
@@ -32,6 +34,7 @@ target_include_directories(
         ./app
         ./app/base
         ./app/mavlink
+        ./app/message_handler
         ./utils
 )
 
