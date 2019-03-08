@@ -35,7 +35,6 @@ public:
     void removeObserver(std::string observerKey, int msgId);
 
     void forceDisconnect();
-    void reConnect();
 
     using PackageManagerDeviceConnectingHandler = std::function<void(bool isConnected)>;
     PackageManagerDeviceConnectingHandler mConnectingHandler;

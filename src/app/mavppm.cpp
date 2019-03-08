@@ -28,8 +28,6 @@ void mavppm::MavPPM::run() {
             _linkManager->open();
         } else {
             _linkManager->close();
-            std::cout<<"[MAVPPM]: Did Not Connected, retry"<<std::endl;
-            p->reConnect();
             sleep(2);
         }
     };
