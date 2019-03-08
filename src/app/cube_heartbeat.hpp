@@ -4,13 +4,15 @@
 
 #pragma once
 
+#include <string>
 #include <functional>
 #include "runloop.hpp"
 #include "nocopyable.hpp"
+#include "itrackable.hpp"
 
 namespace mavppm {
 
-class CubeHeartbeat final : public mavppm::utils::NoCopyable {
+class CubeHeartbeat final : public mavppm::utils::NoCopyable, public mavppm::utils::ITrackable {
 public:
     CubeHeartbeat();
     virtual ~CubeHeartbeat();
@@ -20,7 +22,10 @@ public:
     void start();
     void stop();
 
+    virtual const std::string uniqueID() override;
+
 private:
+    std::string _uniqueID{""};
     std::unique_ptr<mavppm::utils::Runloop> _runloop;
 };
 

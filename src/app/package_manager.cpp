@@ -127,8 +127,17 @@ void mavppm::PackageManager::sendMessage(mavlink_message_t &msg) {
     _mavlinkProtocol->write(msg);
 }
 
-void mavppm::PackageManager::registerMessage(int msgId, MavlinkDispatcherMessageHandlerPtr handlerPtr) {
-    _dispatcher->registerMessageId(msgId, handlerPtr);
+void mavppm::PackageManager::registerMessage(int msgId, std::string observerKey,
+                                             MavlinkDispatcherMessageHandler handler) {
+    _dispatcher->registerMessageId(msgId, observerKey, handler);
+}
+
+void mavppm::PackageManager::removeObserver(std::string observerKey) {
+    _dispatcher->removeObserver(observerKey);
+}
+
+void mavppm::PackageManager::removeObserver(std::string observerKey, int msgId) {
+    _dispatcher->removeObserver(observerKey, msgId);
 }
 
 void mavppm::PackageManager::notifyDeviceConnecting(bool isConnected) {

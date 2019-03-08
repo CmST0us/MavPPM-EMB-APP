@@ -4,15 +4,16 @@
 
 #include <memory>
 
+#include "random.hpp"
 #include "link_manager.hpp"
 #include "package_manager.hpp"
 
 mavppm::LinkManager::LinkManager() {
-
+    uniqueID();
 }
 
 mavppm::LinkManager::~LinkManager() {
-
+    mavppm::PackageManager::shared()->removeObserver(uniqueID());
 }
 
 void mavppm::LinkManager::recvHeartbeat(mavlink_message_t &message) {
@@ -27,18 +28,26 @@ void mavppm::LinkManager::recvHeartbeat(mavlink_message_t &message) {
 
 void mavppm::LinkManager::open() {
     auto bind = std::bind(&mavppm::LinkManager::recvHeartbeat, this, std::placeholders::_1);
-    _handler = std::make_shared<mavppm::MavlinkDispatcherMessageHandler>(bind);
-    mavppm::MavlinkDispatcherMessageHandlerPtr p(_handler);
-    mavppm::PackageManager::shared()->registerMessage(MAVLINK_MSG_ID_HEARTBEAT, p);
+    mavppm::PackageManager::shared()->registerMessage(MAVLINK_MSG_ID_HEARTBEAT, uniqueID(), bind);
     _heartbeat = std::make_shared<mavppm::CubeHeartbeat>();
 }
 
 void mavppm::LinkManager::close() {
-    _heartbeat->stop();
-    _handler = nullptr;
-    _heartbeat = nullptr;
+    if (_heartbeat != nullptr) {
+        _heartbeat->stop();
+        _heartbeat = nullptr;
+        _isConnected = false;
+    }
 }
 
 bool mavppm::LinkManager::isConnected() const {
     return _isConnected;
+}
+
+const std::string mavppm::LinkManager::uniqueID() {
+    if (_uniqueID.length() > 0) {
+        return _uniqueID;
+    }
+    _uniqueID = mavppm::utils::random_string();
+    return _uniqueID;
 }
