@@ -3,15 +3,16 @@
 //
 
 #include <mavlink.h>
+#include "random.hpp"
 #include "package_manager.hpp"
 #include "cube_heartbeat.hpp"
 
 mavppm::CubeHeartbeat::CubeHeartbeat() {
-
+    uniqueID();
 }
 
 mavppm::CubeHeartbeat::~CubeHeartbeat() {
-
+    mavppm::PackageManager::shared()->removeObserver(uniqueID());
 }
 
 void mavppm::CubeHeartbeat::start() {
@@ -29,6 +30,15 @@ void mavppm::CubeHeartbeat::start() {
 }
 
 void mavppm::CubeHeartbeat::stop() {
-    _runloop->stop();
+    if (_runloop != nullptr) {
+        _runloop->stop();
+    }
 }
 
+const std::string mavppm::CubeHeartbeat::uniqueID() {
+    if (_uniqueID.length() > 0) {
+        return _uniqueID;
+    }
+    _uniqueID = mavppm::utils::random_string();
+    return _uniqueID;
+}

@@ -30,7 +30,10 @@ public:
     void setupPackageManager(int remotePort);
 
     void sendMessage(mavlink_message_t &msg);
-    void registerMessage(int msgId, MavlinkDispatcherMessageHandlerPtr handlerPtr);
+    void registerMessage(int msgId, std::string observerKey, MavlinkDispatcherMessageHandler handler);
+    void removeObserver(std::string observerKey);
+    void removeObserver(std::string observerKey, int msgId);
+
     void forceDisconnect();
     void reConnect();
 

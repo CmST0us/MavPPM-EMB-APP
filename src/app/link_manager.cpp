@@ -4,21 +4,22 @@
 
 #include <memory>
 
+#include "random.hpp"
 #include "link_manager.hpp"
 #include "package_manager.hpp"
 
 mavppm::LinkManager::LinkManager() {
-    _heartbeatTimeoutTimer = std::make_shared<mavppm::utils::Timer>();
+    uniqueID();
 }
 
 mavppm::LinkManager::~LinkManager() {
-    _heartbeatTimeoutTimer = nullptr;
+    mavppm::PackageManager::shared()->removeObserver(uniqueID());
 }
 
 void mavppm::LinkManager::recvHeartbeat(mavlink_message_t &message) {
     std::string str = mavppm::MavlinkProtocol::messageDescription(message);
     std::cout<<str<<std::endl;
-    _heartbeatCount ++;
+    _heartBeatCount ++;
     if (!_isConnected) {
         _heartbeat->start();
         _isConnected = true;
@@ -27,35 +28,26 @@ void mavppm::LinkManager::recvHeartbeat(mavlink_message_t &message) {
 
 void mavppm::LinkManager::open() {
     auto bind = std::bind(&mavppm::LinkManager::recvHeartbeat, this, std::placeholders::_1);
-    _handler = std::make_shared<mavppm::MavlinkDispatcherMessageHandler>(bind);
-    mavppm::MavlinkDispatcherMessageHandlerPtr p(_handler);
-    mavppm::PackageManager::shared()->registerMessage(MAVLINK_MSG_ID_HEARTBEAT, p);
+    mavppm::PackageManager::shared()->registerMessage(MAVLINK_MSG_ID_HEARTBEAT, uniqueID(), bind);
     _heartbeat = std::make_shared<mavppm::CubeHeartbeat>();
-    _heartbeat->mHeatbeatInterval = mHeartbeatIntervalSecond;
-    _heartbeatTimeoutTimer->startTimer(mHeartbeatLostCheckIntervalSecond * 1000, std::bind(&mavppm::LinkManager::checkTimeout, this));
 }
 
 void mavppm::LinkManager::close() {
     if (_heartbeat != nullptr) {
         _heartbeat->stop();
+        _heartbeat = nullptr;
+        _isConnected = false;
     }
-    _handler = nullptr;
-    _heartbeat = nullptr;
 }
 
 bool mavppm::LinkManager::isConnected() const {
     return _isConnected;
 }
 
-void mavppm::LinkManager::checkTimeout() {
-    if (_lastHeartbeatCount == _heartbeatCount) {
-        _heartbeatLostCount++;
-        if (_heartbeatCount > mMaxHeartbeatLost) {
-            this->close();
-            mavppm::PackageManager::shared()->forceDisconnect();
-        }
-    } else {
-        _lastHeartbeatCount = _heartbeatCount;
-        _heartbeatLostCount = 0;
+const std::string mavppm::LinkManager::uniqueID() {
+    if (_uniqueID.length() > 0) {
+        return _uniqueID;
     }
+    _uniqueID = mavppm::utils::random_string();
+    return _uniqueID;
 }

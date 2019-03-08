@@ -11,7 +11,7 @@
 
 namespace mavppm {
 
-class LinkManager final : public mavppm::utils::NoCopyable {
+class LinkManager final : public mavppm::utils::NoCopyable, public mavppm::utils::ITrackable {
 public:
     LinkManager();
     virtual ~LinkManager();
@@ -23,7 +23,11 @@ public:
     void open();
     void close();
     bool isConnected() const;
+
+    virtual const std::string uniqueID() override;
+
 private:
+    std::string _uniqueID{""};
     std::shared_ptr<mavppm::MavlinkDispatcherMessageHandler> _handler;
     std::shared_ptr<mavppm::CubeHeartbeat> _heartbeat;
     std::shared_ptr<mavppm::utils::Timer> _heartbeatTimeoutTimer;
