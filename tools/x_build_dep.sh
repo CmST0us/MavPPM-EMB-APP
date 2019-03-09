@@ -13,7 +13,7 @@ cd ..
 rm -r build
 mkdir build
 cd build
-cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=ON -DDEBUG=OFF
+cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
 make
 make install
 
@@ -22,8 +22,9 @@ mkdir -p $MAVPPM_ROOT/Vendor/build/lib
 mkdir -p $MAVPPM_ROOT/Vendor/build/include
 cp -r libSocketKit/include $MAVPPM_ROOT/Vendor/build
 cp -r libSocketKit/lib $MAVPPM_ROOT/Vendor/build
+cd ..
 cp -r vendor/build/include $MAVPPM_ROOT/Vendor/build
-cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/lib
+cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/build
 
 # Build PPM
 cd $MAVPPM_ROOT/MavPPM-EMB-PPM/tools
@@ -31,12 +32,13 @@ cd $MAVPPM_ROOT/MavPPM-EMB-PPM/tools
 cd ..
 mkdir -p build
 cd build
-cmake .. -DBUILD_WIRING_PI=ON -DDEBUG=OFF
+cmake .. -DBUILD_WIRING_PI=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
 make
 make install
 
 # Copy
+cd ..
 mkdir -p $MAVPPM_ROOT/Vendor/build/lib
 mkdir -p $MAVPPM_ROOT/Vendor/build/include
 cp -r vendor/build/include $MAVPPM_ROOT/Vendor/build/
-cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/lib
+cp -r vendor/build/lib $MAVPPM_ROOT/Vendor/build/
