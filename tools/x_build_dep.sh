@@ -13,7 +13,7 @@ cd ..
 rm -r build
 mkdir build
 cd build
-cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
+cmake .. -DBUILD_USBMUXD_COMM=ON -DBUILD_CROSS_COMPILE=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-none-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-none-linux-gnueabihf-g++
 make
 make install
 
@@ -32,7 +32,7 @@ cd $MAVPPM_ROOT/MavPPM-EMB-PPM/tools
 cd ..
 mkdir -p build
 cd build
-cmake .. -DBUILD_WIRING_PI=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
+cmake .. -DBUILD_WIRING_PI=ON -DDEBUG=OFF -DCMAKE_C_COMPILER=arm-none-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-none-linux-gnueabihf-g++
 make
 make install
 

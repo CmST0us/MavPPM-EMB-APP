@@ -4,9 +4,13 @@
 
 #pragma once
 
+
 #include <functional>
 #include <memory>
 
+// MUST INCLUDE THIS FILE, OTHERWISE, offsetof() NOT FOUND!!!
+#include <stddef.h>
+//
 #include <mavlink.h>
 #include <mavlink_helpers.h>
 #include <data.hpp>
