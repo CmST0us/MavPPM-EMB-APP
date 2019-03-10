@@ -12,7 +12,7 @@ class Application : public utils::NoCopyable {
 public:
     Application();
     virtual ~Application();
-    virtual void run();
+    virtual void run(int argc, char *argv[]);
 };
 
 }

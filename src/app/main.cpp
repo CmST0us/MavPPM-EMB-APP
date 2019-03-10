@@ -6,7 +6,7 @@
 #include "mavppm.hpp"
 int main(int argc, char *argv[]) {
     mavppm::MavPPM app;
-    app.run();
+    app.run(argc, argv);
 
     return 0;
 }

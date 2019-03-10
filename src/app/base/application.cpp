@@ -13,6 +13,6 @@ mavppm::Application::~Application() {
 
 }
 
-void mavppm::Application::run() {
+void mavppm::Application::run(int argc, char *argv[]) {
     std::cout<<"[Application]: Running"<<std::endl;
 }

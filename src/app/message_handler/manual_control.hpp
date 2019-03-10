@@ -5,6 +5,8 @@
 #pragma once
 
 #include <mavlink.h>
+#include <MPPPMEncoder/PPMEncoderFactory.hpp>
+
 #include "random.hpp"
 #include "imessage_handler.hpp"
 
@@ -27,7 +29,11 @@ public:
     virtual void start() override;
     virtual void stop() override;
 
+    std::string mPPMDevice{"/dev/ttyS1"};
+    int mBandrate{4800};
 private:
+    std::shared_ptr<ppm::IPPMEncoder> _encoder{nullptr};
+
     void handleManualControl(mavlink_message_t &message);
     std::string _uniqueID{""};
 };

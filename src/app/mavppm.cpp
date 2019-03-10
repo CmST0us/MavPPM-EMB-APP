@@ -17,8 +17,29 @@ mavppm::MavPPM::~MavPPM() {
 
 }
 
+void mavppm::MavPPM::setupParam(int argc, char *argv[]) {
+    if (argc <= 1) return;
 
-void mavppm::MavPPM::run() {
+    for (int i = 1; i < argc; ++i) {
+        char *arg = argv[i];
+        std::string argvStr = arg;
+        if (argvStr.compare("-d") == 0) {
+            // Device
+            char *device = argv[i + 1];
+            std::string deviceStr = device;
+            _PPMDevice = deviceStr;
+        }
+        if (argvStr.compare("-b") == 0) {
+            // bandrate
+            char *bandrate = argv[i + 1];
+            _bandrate = atoi(bandrate);
+        }
+    }
+}
+
+void mavppm::MavPPM::run(int argc, char *argv[]) {
+    setupParam(argc, argv);
+
     std::cout<<"[MavPPM]: Start Running"<<std::endl;
     mavppm::PackageManager::shared()->setupPackageManager(mavppm::MavPPM::USBMUXD_CONNECT_PORT);
 
@@ -32,6 +53,8 @@ void mavppm::MavPPM::run() {
     };
 
     _manualControl = std::make_shared<mavppm::message_handler::ManualControl>();
+    _manualControl->mPPMDevice = _PPMDevice;
+    _manualControl->mBandrate = _bandrate;
     _manualControl->start();
 
     while (true) {
