@@ -43,7 +43,7 @@ target_include_directories(
         PUBLIC
         ../../MavPPM-EMB-PPM/include
         ../../MavPPM-mavlink/mavlink/include/v1
-        ../../MavPPM-mavlink/mavlink/include/v1/standard
+        ../../MavPPM-mavlink/mavlink/include/v1/common
         ../../Vendor/build/include
 )
 
