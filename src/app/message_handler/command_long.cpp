@@ -37,37 +37,37 @@ void mavppm::message_handler::CommandLong::handleSetParamCommand(mavlink_command
     auto p = mavppm::ChannelMap::shared();
     switch ((int)message.param1) {
         case MAVPPM_DO_SET_THROTTLE_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Throttle);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Throttle);
         }
             break;
 
         case MAVPPM_DO_SET_ROLL_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Roll);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Roll);
         }
             break;
 
         case MAVPPM_DO_SET_PITCH_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Pitch);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Pitch);
         }
             break;
 
         case MAVPPM_DO_SET_YAW_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Yaw);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Yaw);
         }
             break;
 
         case MAVPPM_DO_SET_BUTTON1_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Button1);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Button1);
         }
             break;
 
         case MAVPPM_DO_SET_BUTTON2_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Button2);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Button2);
         }
             break;
 
         case MAVPPM_DO_SET_BUTTON3_CHANNEL: {
-            p->bind((mavppm::ChannelMap::ChannelNumber)message.param1, mavppm::ChannelMap::ChannelType::Button3);
+            p->bind((mavppm::ChannelMap::ChannelNumber)message.param2, mavppm::ChannelMap::ChannelType::Button3);
         }
             break;
 

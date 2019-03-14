@@ -68,6 +68,8 @@ protected:
                 _rootNode = plist_new_dict();
                 plist_t rootDict = plist_new_dict();
                 plist_dict_set_item(_rootNode, kUserDefaultPlistRootKey, rootDict);
+            } else {
+                _rootNode = rootNode;
             }
 
             f.close();

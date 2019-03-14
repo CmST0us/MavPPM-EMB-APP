@@ -7,6 +7,7 @@
 #include "package_manager.hpp"
 #include "timer.hpp"
 #include "user_default.hpp"
+#include "channel_map.hpp"
 
 int mavppm::MavPPM::USBMUXD_CONNECT_PORT = 17123;
 
@@ -44,6 +45,9 @@ void mavppm::MavPPM::run(int argc, char *argv[]) {
     // start UserDeafult
     mavppm::utils::UserDefault::shared();
 
+    // start ChannelMap;
+    mavppm::ChannelMap::shared()->loadChannelConfig();
+
     // start PackagerManager
     std::cout<<"[MavPPM]: Start Running"<<std::endl;
     mavppm::PackageManager::shared()->setupPackageManager(mavppm::MavPPM::USBMUXD_CONNECT_PORT);
@@ -61,6 +65,9 @@ void mavppm::MavPPM::run(int argc, char *argv[]) {
     _manualControl->mPPMDevice = _PPMDevice;
     _manualControl->mBandrate = _bandrate;
     _manualControl->start();
+
+    _commandLong = std::make_shared<mavppm::message_handler::CommandLong>();
+    _commandLong->start();
 
     while (true) {
         ::sleep(1000);

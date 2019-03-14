@@ -8,6 +8,7 @@
 #include "application.hpp"
 #include "link_manager.hpp"
 #include "manual_control.hpp"
+#include "command_long.hpp"
 
 namespace mavppm {
 
@@ -29,6 +30,7 @@ private:
 
 #pragma mark - Message Handler
     std::shared_ptr<mavppm::message_handler::ManualControl> _manualControl{nullptr};
+    std::shared_ptr<mavppm::message_handler::CommandLong> _commandLong{nullptr};
 };
 
 }

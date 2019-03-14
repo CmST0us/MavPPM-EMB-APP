@@ -108,38 +108,38 @@ void mavppm::ChannelMap::saveConfig() {
     uint64_t channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Throttle];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileThrottleKey, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileThrottleKey, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Roll];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileRollKey, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileRollKey, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Pitch];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfilePitchKey, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfilePitchKey, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Yaw];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileYawKey, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileYawKey, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Button1];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton1Key, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton1Key, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Button2];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton2Key, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton2Key, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     channelNumber = (uint64_t)_channelMap[mavppm::ChannelMap::ChannelType::Button3];
-    channelMapPlistObj = plist_new_uint(channelNumber);
-    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton3Key, channelMapPlistObj);
+    channelNumberPlistObj = plist_new_uint(channelNumber);
+    plist_dict_set_item(channelMapPlistObj, kUserDefaultChannelBindProfileButton3Key, channelNumberPlistObj);
     channelNumber = (uint64_t)mavppm::ChannelMap::ChannelNumber::Unbind;
 
     mavppm::utils::UserDefault::shared()->set(kUserDefaultChannelBindProfileKey, channelMapPlistObj);
