@@ -14,20 +14,9 @@
 #include <mavlink.h>
 #include <mavlink_helpers.h>
 #include <data.hpp>
+#include <MavPPM.h>
 
 #include "nocopyable.hpp"
-
-#pragma mark - SYSTEM ID
-#define MAVPPM_SYSTEM_ID_IOS 230
-#define MAVPPM_SYSTEM_ID_EMB 231
-
-#pragma mark - COMPONENT ID
-
-#pragma mark IOS
-#define MAVPPM_COMPONENT_ID_IOS_APP 10
-
-#pragma mark EMB
-#define MAVPPM_COMPONENT_ID_EMB_APP 11
 
 namespace mavppm {
 
