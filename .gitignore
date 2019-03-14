@@ -37,4 +37,5 @@
 *.DS_Store
 *cmake-build*
 *build
+CMakeLists.txt.user
 
