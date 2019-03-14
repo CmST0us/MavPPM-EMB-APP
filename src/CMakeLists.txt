@@ -44,6 +44,7 @@ target_include_directories(
         ../../MavPPM-EMB-PPM/include
         ../../MavPPM-mavlink/mavlink/include/v1
         ../../MavPPM-mavlink/mavlink/include/v1/common
+        ../../MavPPM-mavlink/MPMavlink/MPMavlink
         ../../Vendor/build/include
 )
 

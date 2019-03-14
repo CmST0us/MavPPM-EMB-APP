@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include <plist/plist.h>
 #include <memory>
 #include <fstream>

@@ -4,6 +4,7 @@
 
 #include "package_manager.hpp"
 #include "manual_control.hpp"
+#include "channel_map.hpp"
 
 mavppm::message_handler::ManualControl::ManualControl() {
     uniqueID();
@@ -31,15 +32,16 @@ void mavppm::message_handler::ManualControl::handleManualControl(mavlink_message
     mavlink_manual_control_t control = {0};
     mavlink_msg_manual_control_decode(&message, &control);
     std::cout<<mavppm::MavlinkProtocol::messageDescription(message)<<std::endl;
-    // [TODO] 参数化改造
+    auto p = mavppm::ChannelMap::shared();
 
     int channel[] = {
-            4, //Throtter
-            3, // Yaw
-            2, // Roll
-            1, // Pitch
-            5, // Button 1
-            6, // Button 2,
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Throttle), //Throtter
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Yaw), // Yaw
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Roll), // Roll
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Pitch), // Pitch
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button1), // Button 1
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button2), // Button 2,
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button3), // Button 3,
     };
 
     int value[] = {
@@ -49,7 +51,9 @@ void mavppm::message_handler::ManualControl::handleManualControl(mavlink_message
         control.x,
         control.buttons & 0x01 ? _encoder->maxChannelValue() : _encoder->minChannelValue(),
         control.buttons & 0x02 ? _encoder->maxChannelValue() : _encoder->minChannelValue(),
+        control.buttons & 0x03 ? _encoder->maxChannelValue() : _encoder->minChannelValue(),
     };
+
     _encoder->writeValue(channel, value, sizeof(channel));
 }
 

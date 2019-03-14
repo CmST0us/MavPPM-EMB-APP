@@ -30,6 +30,9 @@ public:
 
 private:
     std::string _uniqueID{""};
+
+    void handleCommandLongMessage(mavlink_message_t &message);
+    void handleSetParamCommand(mavlink_command_long_t &message);
 };
 
 }
