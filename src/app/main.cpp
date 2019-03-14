@@ -4,7 +4,9 @@
 
 
 #include "mavppm.hpp"
+
 int main(int argc, char *argv[]) {
+
     mavppm::MavPPM app;
     app.run(argc, argv);
 

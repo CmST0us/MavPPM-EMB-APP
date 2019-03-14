@@ -6,6 +6,7 @@
 #include "mavppm.hpp"
 #include "package_manager.hpp"
 #include "timer.hpp"
+#include "user_default.hpp"
 
 int mavppm::MavPPM::USBMUXD_CONNECT_PORT = 17123;
 
@@ -40,6 +41,10 @@ void mavppm::MavPPM::setupParam(int argc, char *argv[]) {
 void mavppm::MavPPM::run(int argc, char *argv[]) {
     setupParam(argc, argv);
 
+    // start UserDeafult
+    mavppm::utils::UserDefault::shared();
+
+    // start PackagerManager
     std::cout<<"[MavPPM]: Start Running"<<std::endl;
     mavppm::PackageManager::shared()->setupPackageManager(mavppm::MavPPM::USBMUXD_CONNECT_PORT);
 
