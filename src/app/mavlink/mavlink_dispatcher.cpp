@@ -58,16 +58,17 @@ void mavppm::MavlinkDispatcher::dispatchMessage(mavlink_message_t &message) {
     _mapLock.lock();
     MavlinkDispatcherObserverMap::iterator it = _observerMap.begin();
     while (it != _observerMap.end()) {
-        MavlinkDispatcherMessageHandlerMap::iterator handlerIt = it->second.begin();
-        while (handlerIt != it->second.end()) {
-            MavlinkDispatcherHandlerVector v = handlerIt->second;
-            for (int i = 0; i < v.size(); ++i) {
-                MavlinkDispatcherMessageHandler h = v[i];
+        MavlinkDispatcherMessageHandlerMap handlerMap = it->second;
+        if (handlerMap.count(message.msgid) > 0) {
+            MavlinkDispatcherHandlerVector handlerVector = handlerMap[message.msgid];
+            auto handlerVectorIt = handlerVector.begin();
+            while (handlerVectorIt != handlerVector.end()) {
+                auto h = *handlerVectorIt;
                 if (h != nullptr) {
                     h(message);
                 }
+                handlerVectorIt++;
             }
-            handlerIt++;
         }
         it++;
     }
