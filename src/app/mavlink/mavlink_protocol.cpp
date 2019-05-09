@@ -63,7 +63,6 @@ std::shared_ptr<mavppm::utils::Data> mavppm::MavlinkProtocol::serialize(mavlink_
 }
 
 std::string mavppm::MavlinkProtocol::messageDescription(mavlink_message_t &message) {
-    printf("Func: %s", __func__);
     mavlink_message_info_t info = mavppm::MavlinkProtocol::mavlinkMessageInfo(message.msgid);
     std::stringstream sstr;
     sstr<<info.name<<":"<<std::endl;

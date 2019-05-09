@@ -31,7 +31,7 @@ void mavppm::message_handler::ManualControl::stop() {
 void mavppm::message_handler::ManualControl::handleManualControl(mavlink_message_t &message) {
     mavlink_manual_control_t control = {0};
     mavlink_msg_manual_control_decode(&message, &control);
-    std::cout<<mavppm::MavlinkProtocol::messageDescription(message)<<std::endl;
+//    std::cout<<mavppm::MavlinkProtocol::messageDescription(message)<<std::endl;
     auto p = mavppm::ChannelMap::shared();
 
     int channel[] = {
