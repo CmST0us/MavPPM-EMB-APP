@@ -28,6 +28,7 @@ void mavppm::message_handler::CommandLong::stop() {
 void mavppm::message_handler::CommandLong::handleCommandLongMessage(mavlink_message_t &message) {
     mavlink_command_long_t commandLong = {0};
     mavlink_msg_command_long_decode(&message, &commandLong);
+    std::cout<<mavppm::MavlinkProtocol::messageDescription(message)<<std::endl;
     if (commandLong.command == MAV_CMD_DO_SET_PARAMETER) {
         this->handleSetParamCommand(commandLong);
     }
