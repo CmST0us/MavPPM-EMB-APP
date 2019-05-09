@@ -54,12 +54,15 @@ void mavppm::message_handler::ManualControl::handleManualControl(mavlink_message
         control.buttons & 0x03 ? _encoder->maxChannelValue() : _encoder->minChannelValue(),
     };
 
+    /*
     for (int i = 0; i < 7; i++) {
         int c = channel[i];
         int v = value[i];
         std::cout<<"channel "<<c<<" output "<<v<<std::endl;
     }
     std::cout<<std::endl;
+     */
+    
     _encoder->writeValue(channel, value, 7);
 }
 
