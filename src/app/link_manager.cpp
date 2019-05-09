@@ -18,7 +18,7 @@ mavppm::LinkManager::~LinkManager() {
 
 void mavppm::LinkManager::recvHeartbeat(mavlink_message_t &message) {
     std::string str = mavppm::MavlinkProtocol::messageDescription(message);
-    std::cout<<str<<std::endl;
+//    std::cout<<str<<std::endl;
     _heartbeatCount ++;
     if (!_isConnected) {
         _heartbeat->start();
