@@ -90,13 +90,13 @@ void mavppm::ChannelMap::loadChannelConfig() {
 }
 
 void mavppm::ChannelMap::useDefaultConfig() {
-    _channelMap[mavppm::ChannelMap::ChannelType::Throttle] = mavppm::ChannelMap::ChannelNumber::_4;
-    _channelMap[mavppm::ChannelMap::ChannelType::Pitch] = mavppm::ChannelMap::ChannelNumber::_1;
-    _channelMap[mavppm::ChannelMap::ChannelType::Roll] = mavppm::ChannelMap::ChannelNumber::_2;
-    _channelMap[mavppm::ChannelMap::ChannelType::Yaw] = mavppm::ChannelMap::ChannelNumber::_3;
-    _channelMap[mavppm::ChannelMap::ChannelType::Button1] = mavppm::ChannelMap::ChannelNumber::_5;
-    _channelMap[mavppm::ChannelMap::ChannelType::Button2] = mavppm::ChannelMap::ChannelNumber::_6;
-    _channelMap[mavppm::ChannelMap::ChannelType::Button3] = mavppm::ChannelMap::ChannelNumber::_7;
+    _channelMap[mavppm::ChannelMap::ChannelType::Throttle] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Pitch] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Roll] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Yaw] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Button1] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Button2] = mavppm::ChannelMap::ChannelNumber::Unbind;
+    _channelMap[mavppm::ChannelMap::ChannelType::Button3] = mavppm::ChannelMap::ChannelNumber::Unbind;
 
     saveConfig();
 }
