@@ -35,13 +35,13 @@ void mavppm::message_handler::ManualControl::handleManualControl(mavlink_message
     auto p = mavppm::ChannelMap::shared();
 
     int channel[] = {
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Throttle), //Throtter
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Yaw), // Yaw
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Roll), // Roll
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Pitch), // Pitch
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Button1), // Button 1
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Button2), // Button 2,
-            (int)p->channel(mavppm::ChannelMap::ChannelType::Button3), // Button 3,
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Throttle) - 1, //Throtter
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Yaw) - 1, // Yaw
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Roll) - 1, // Roll
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Pitch) - 1, // Pitch
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button1) - 1, // Button 1
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button2) - 1, // Button 2,
+            (int)p->channel(mavppm::ChannelMap::ChannelType::Button3) - 1, // Button 3,
     };
 
     int value[] = {
