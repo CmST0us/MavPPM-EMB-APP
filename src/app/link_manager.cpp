@@ -37,6 +37,7 @@ void mavppm::LinkManager::close() {
         _heartbeat->stop();
         _heartbeat = nullptr;
         _isConnected = false;
+        mavppm::PackageManager::shared()->removeObserver(uniqueID());
     }
 }
 

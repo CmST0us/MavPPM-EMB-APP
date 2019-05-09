@@ -32,6 +32,7 @@ void mavppm::CubeHeartbeat::start() {
 void mavppm::CubeHeartbeat::stop() {
     if (_runloop != nullptr) {
         _runloop->stop();
+        mavppm::PackageManager::shared()->removeObserver(uniqueID());
     }
 }
 
